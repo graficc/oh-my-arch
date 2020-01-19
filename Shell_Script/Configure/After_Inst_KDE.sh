@@ -1,9 +1,12 @@
 #!/bin/bash
 
-# set language
-sudo echo 'LANG=zh_CN.UTF-8' > /etc/locale.conf
+# Font
+sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
 
-# set input method
+# Set language
+sudo sh -c "echo 'LANG=zh_CN.UTF-8' > /etc/locale.conf"
+
+# Set input method
 sudo pacman -S --noconfirm fcitx5-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-rime-git kcm-fcitx5-git fcitx5-chinese-addons-git
 echo 'export GTK_IM_MODULE=fcitx5' > .xprofile
 echo 'export QT_IM_MODULE=fcitx5' >> .xprofile

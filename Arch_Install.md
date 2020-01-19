@@ -57,7 +57,7 @@ ls /sys/firmware/efi/efivars
 vim /etc/pacman.d/mirorrlist
 ```
 
-这个mirrorlist在会复制到安装好的系统中，我在第一行加入了镜像源，这个是东软的，可自行更换 
+这个mirrorlist在会复制到安装好的系统中，我在第一行加入了镜像源，可自行更换 
 
 Server = <https://mirrors.neusoft.edu.cn/archlinux/$repo/os/$arch>
 
@@ -179,18 +179,18 @@ man系统手册：man-db、man-pages
 - 网络
 
   ```sh
-  echo 'Arch_omen' > /etc/hostname
+  echo 'Arch-Omen' > /etc/hostname
   vim /etc/hosts
   ```
 
-  Arch_omen是我自己的主机名，自己更改为喜欢的名字即可，下面的主机名也要随着该
+  Arch-Omen是我自己的主机名，自己更改为喜欢的名字即可，下面的主机名也要随着该
 
   加入以下内容
 
   ```sh
   127.0.0.1       localhost
-  ::1                     localhost
-  127.0.1.1       Arch-omen.localdomain    Arch-omen
+  ::1             localhost
+  127.0.1.1       Arch-Omen.localdomain    Arch-Omen
   ```
 
 - Initramfs

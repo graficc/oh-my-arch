@@ -45,7 +45,7 @@ EDITOR=vim visudo
   ```sh
   [archlinuxcn]
   SigLevel = TrustedOnly
-  Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch     # 清华的镜像源，可自行替换
+  Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch     # 可自行替换其他镜像源
   ```
 
   再使用`pacman -Syy archlinuxcn-keyring`安装该源所需的密钥
@@ -146,7 +146,7 @@ systemctl enable sddm    #设置登录界面自启动
   systemctl enable bluetooth    # 设置蓝牙模块开机自启动
   ```
   
-  博通的蓝牙需要再aur中加装驱动比如`bluez-firmware`
+  博通的蓝牙芯片需要再aur中加装驱动比如`bluez-firmware`
   
 - MTP
 
@@ -156,23 +156,37 @@ systemctl enable sddm    #设置登录界面自启动
   ```
 
   若果用Gnome类的文件管理器，可以安装`gvfs-mtp`，KDE的话，安装`kio-extras`获得更好体验
+  
+  ----------
+  
+  重启进入系统
+  
+  ----------
 
 #### 安装中文字体
 
-```sh
-pacman -S adobe-source-han-serif-cn-fonts adobe-source-han-sans-cn-fonts    # 思源系列字体
-```
+- 使用fontconfig
 
-----------------------------------------
+  我个人使用了fontconfig来让字体更好的渲染，我用到的是`noto-fonts`、`noto-fonts-cjk`、`noto-fonts-emoji`和`FuraCode-Nerd-Font`，前面三个archlinuxcn源有打包，最后一个我是在`nerd-font`项目上下载的，主要来使用zsh主题，个人的fontconfig借鉴了<https://szclsya.me/zh-cn/posts/fonts/linux-config-guide/>上的配置，在dotfiles文件夹里
 
-**重启进入桌面**
+  ```sh
+  sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
+  ```
 
-----------------------------------------
+  将font.conf扔进个人home中的`.config/fontconfig`中重新即可看到效果
+
+- 不使用fontconfig
+
+  推荐安装思源系列字体，在KDE中设置即可
+
+  ```sh
+  sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts
+  ```
 
 #### 更改语言
 
 ```sh
-sudo echo 'LANG=zh_CN.UTF-8' > /etc/locale.conf
+sudo sh -c "echo 'LANG=zh_CN.UTF-8' > /etc/locale.conf"
 ```
 
 注销重新登录即可

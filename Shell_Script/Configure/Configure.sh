@@ -40,6 +40,3 @@ pacman -S --noconfirm bluez bluez-utils pulseaudio-modules-bt alsa-utils alsa-fi
 usermod -aG lp aaron
 systemctl enable bluetooth
 pacman -S --noconfirm libmtp mtpfs android-tools android-udev
-
-# Font
-pacman -S --noconfirm adobe-source-han-serif-cn-fonts adobe-source-han-sans-cn-fonts

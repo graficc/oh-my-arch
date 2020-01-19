@@ -11,10 +11,10 @@ locale-gen
 echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 
 # Network
-echo 'Arch_omen' > /etc/hostname
+echo 'Arch-Omen' > /etc/hostname
 echo '127.0.0.1    localhost' >> /etc/hosts
 echo '::1          localhost' >> /etc/hosts
-echo '127.0.1.1    Arch_omen.localdomain  Arch_omen' >> /etc/hosts
+echo '127.0.1.1    Arch-Omen.localdomain  Arch-Omen' >> /etc/hosts
 
 # Ucode and Initramfs
 pacman -Syy --noconfirm intel-ucode
