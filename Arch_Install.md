@@ -9,13 +9,13 @@ Arch Linux是我最喜欢的发行版之一，它接近上游，可以体验到�
 将archlinux的iso烧录到U盘
 
 ```sh
-sudo umount /dev/sdX*    # 卸载U盘
+sudo umount /dev/sdX*                                                      # 卸载U盘
 sudo dd oflag=sync status=progress bs=4M if=./archlinux.iso of=/dev/sdX    # 烧录iso
 ```
 
-#### 启动到live环境
+#### 启动到Live Cd
 
-插入U盘，启动到archlinux的live环境
+插入U盘，启动到archlinux的Live CD
 
 ps：N卡最好在启动时按下e并在末尾加入 "modprobe.blacklist=nouveau" 以禁用 nouveau 开源驱动，否则可能花屏或者出现其他莫名bug
 
@@ -25,11 +25,11 @@ ps：N卡最好在启动时按下e并在末尾加入 "modprobe.blacklist=nouveau
 ls /sys/firmware/efi/efivars
 ```
 
-如果有结果，系统就是以UEFI启动的，否则是BIOS模式启动的，我的暗影精灵5是UEFI模式
+如果有结果，系统就是以UEFI模式启动的，否则是BIOS模式启动的，我的笔记本是UEFI模式启动
 
 #### 联网
 
-可以用`ip link`查看自己的网卡型号，en打头的是有线，比如宽带或者手机USB网络共享，wl打头是无线网卡的型号。比如我这个在Arch的Live CD下可以看到eno1和wlan0。
+可以用`ip link`查看自己的网卡型号，en打头的是有线，比如宽带或者手机USB网络共享，wl打头是无线网卡的型号。我的笔记本在archlinux的Live CD下可以看到eno1和wlan0
 
 - 有线
 
@@ -38,8 +38,8 @@ ls /sys/firmware/efi/efivars
 - 无线
 
   ```sh
-  wifi-menu    # 连接wifi
-  dhcpcd wlan0    # 获取ip地址
+  wifi-menu                 # 连接wifi
+  dhcpcd wlan0              # 获取ip地址
   ping -c4 www.baidu.com    # 测试连接
   ```
 
@@ -48,7 +48,7 @@ ls /sys/firmware/efi/efivars
 - USB网络共享
 
   ```sh
-  dhcpcd <网卡型号>    # 即可自动获取ip地址
+  dhcpcd <网卡型号>         # 即可自动获取ip地址
   ```
 
 #### 更换软件源
@@ -57,7 +57,7 @@ ls /sys/firmware/efi/efivars
 vim /etc/pacman.d/mirorrlist
 ```
 
-这个mirrorlist在会复制到安装好的系统中，我在第一行加入了镜像源，可自行更换 
+这个mirrorlist在会复制到接下来安装的系统中，我在第一行加入了镜像源，可自行更换 
 
 Server = <https://mirrors.neusoft.edu.cn/archlinux/$repo/os/$arch>
 
@@ -65,24 +65,24 @@ Server = <https://mirrors.neusoft.edu.cn/archlinux/$repo/os/$arch>
 
 ```sh
 timedatectl set-ntp true
-timedatectl status    # 可选，查看系统现在的时间状态
+timedatectl status         # 可选，查看系统现在的时间状态
 ```
 
 #### 分区
 
 - 我的分区方案：
 
-    | 挂载点    | 分区           | 分区类型                   | 大小  | 文件系统 |
-    | --------- | -------------- | -------------------------- | ----- | -------- |
-    | /boot/efi | /dev/nvme0n1p1 | EFI系统分区(EF00)        | 512MB | fat32    |
-    | /         | /dev/nvme0n1p2 | Linux 根目录(8300)       | 50GB  | xfs      |
-    | /home     | /dev/nvme0n1p3 | 个人数据目录(8300)       | 200GB | xfs      |
-    | [SWAP]    | /dev/nvme0n1p4 | Linux swap交换分区(8200) | 4GB   | swap     |
+    | 挂载点    | 分区类型                 | 大小  | 文件系统 | 简述             |
+    | --------- | ------------------------ | ----- | -------- | ---------------- |
+    | /boot/efi | EFI系统分区(EF00)        | 512MB | fat32    | 存放启动系统文件 |
+    | /         | Linux 根目录(8300)       | 50GB  | xfs      | 存放整个系统文件 |
+    | /home     | 个人数据目录(8300)       | 200GB | xfs      | 存放个人数据文件 |
+    | [SWAP]    | Linux swap交换分区(8200) | 4GB   | swap     | 用作临时交换     |
 
     GPT分区表最好使用 gdisk 命令或者 cgdisk 交互命令
 
     ```sh
-    gdisk /dev/nvme0n1    # 更换为自己想要安装到的硬盘
+    gdisk /dev/nvme0n1     # 更换为自己想要安装到的硬盘
     ```
 
     nvme一般是m.2接口的硬盘，sata的硬盘可能是sda，sdb什么的
@@ -92,15 +92,15 @@ timedatectl status    # 可选，查看系统现在的时间状态
 - 格式化和挂载分区
 
   ```sh
-  mkfs.fat -F32 /dev/nvme0n1p1    # 格式化efi分区
-  mkfs.xfs /dev/nvme0n1p2    # 格式化根目录分区
-  mkfs.xfs /dev/nvme0n1p3    # 格式化home分区
-  mkswap /dev/nvme0n1p4    # 格式化swap分区
-  swapon /dev/nvme0n1p4    # 启用swap
-  mount /dev/nvme0n1p2 /mnt    # 把根分区挂载到/mnt
-  mkdir -p /mnt/boot/efi /mnt/home    # 建立/boot/efi和/home目录
+  mkfs.fat -F32 /dev/nvme0n1p1          # 格式化efi分区
+  mkfs.xfs /dev/nvme0n1p2               # 格式化root分区
+  mkfs.xfs /dev/nvme0n1p3               # 格式化home分区
+  mkswap /dev/nvme0n1p4                 # 格式化swap分区
+  swapon /dev/nvme0n1p4                 # 启用swap
+  mount /dev/nvme0n1p2 /mnt             # 把root分区挂载到/mnt
+  mkdir -p /mnt/boot/efi /mnt/home      # 建立/boot/efi和/home目录
   mount /dev/nvme0n1p1 /mnt/boot/efi    # 挂载efi分区到/boot/efi
-  mount /dev/nvme0n1p3 /mnt/home    # 挂载home分区到/home
+  mount /dev/nvme0n1p3 /mnt/home        # 挂载home分区到/home
   ```
 
 #### 开始安装
@@ -153,7 +153,7 @@ man系统手册：man-db、man-pages
 
     ```sh
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime    # 更改时区
-    hwclock --systohc    # 应用到硬件时间
+    hwclock --systohc                                          # 应用到硬件时间
     ```
 
   - 语言
@@ -210,8 +210,9 @@ man系统手册：man-db、man-pages
 
 ```sh
 pacman -S grub efibootmgr os-prober
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB_ARCH --recheck    # 安装grub引导
-grub-mkconfig -o /boot/grub/grub.cfg    # 生成grub配置
+grub-install --target=x86_64-efi --efi-directory=/boot/efi \
+--bootloader-id=GRUB_ARCH --recheck                           # 安装grub引导
+grub-mkconfig -o /boot/grub/grub.cfg                          # 生成grub配置
 ```
 
 若是多系统，需要将其他系统的efi分区挂载，执行`os-prober` 再通过`grub-mkconfig -o /boot/grub/grub.cfg` 重新生成grub配置
@@ -220,8 +221,13 @@ grub-mkconfig -o /boot/grub/grub.cfg    # 生成grub配置
 
 ```sh
 exit
-umount -a    # 卸载挂载的文件系统
+umount -a    # 卸载已挂载的文件系统
 reboot
 ```
 
 若是N卡，建议在重启启动时grub中按e添加参数，在linux所在行行尾添加 "modprobe.blacklist=nouveau"再按Ctrl + x启动即可
+
+#### 参考链接
+
+1. [ArchLinux‘s Install Guide](https://wiki.archlinux.org/index.php/Installation_guide)
+2. [ArchLinux's Install Guide中文译版](https://wiki.archlinux.org/index.php/Installation_guide_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))

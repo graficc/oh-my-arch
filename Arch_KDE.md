@@ -20,12 +20,12 @@
 #### 添加用户
 
 ```sh
-useradd -m -G wheel,adm -s /bin/bash aaron    # aaron替换为你喜欢的用户名，不能大写^_^
-passwd aaron    # 设置用户密码
+useradd -m -G wheel,adm -s /bin/bash aaron    # aaron替换为你喜欢的用户名，不能大写
+passwd aaron                                  # 设置用户密码
 EDITOR=vim visudo
 ```
 
-这时会进入vim的操作界面，取消`# %wheel ALL=(ALL) ALL`的注释即那个#号即可
+这时会进入vim的操作界面，取消`# %wheel ALL=(ALL) ALL`的注释即删除那个#号即可
 
 #### 启用32位支持、添加Archlinuxcn源和aur helper
 
@@ -40,7 +40,7 @@ EDITOR=vim visudo
 
   取消Color的注释可以让pacman彩色输出，而VerbosePkgLists则是升级软件时，可以查看新旧软件对比
 
-- 添加Archlinuxcn社区源，里面打包了aur上国人常用软件和一些软件的Linux版本，在`/etc/pacman.conf`中加入即可
+- 添加Archlinuxcn社区源，里面打包了aur上国人常用软件和一些软件的Linux版本，在`/etc/pacman.conf`中加入
 
   ```sh
   [archlinuxcn]
@@ -82,21 +82,27 @@ EDITOR=vim visudo
 
   ```sh
   pacman -S xf86-input-libinput xf86-input-synaptics 
-  ln -sf /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf    # 初始化输入设备配置
-  ln -sf /usr/share/X11/xorg.conf.d/70-synaptics.conf /etc/X11/xorg.conf.d/70-synaptics.conf    # 初始化触摸板配置
+  ln -sf /usr/share/X11/xorg.conf.d/40-libinput.conf \
+  /etc/X11/xorg.conf.d/40-libinput.conf                  # 初始化输入设备配置
+  ln -sf /usr/share/X11/xorg.conf.d/70-synaptics.conf \
+  /etc/X11/xorg.conf.d/70-synaptics.conf                 # 初始化触摸板配置
   ```
 
 #### 安装显卡驱动
 
 - intel核显开源驱动
 
-  intel开源驱动已经在kernel中集成，即`modesetting`，也可以追加安装`xf86-video-intel `驱动，它提供了xorg上的2D加速服务，但arch wiki上不建议安装该驱动，可能在一些显卡上有问题，若需安装，也请使用`modesetting`提供驱动；`mesa`提供了3D加速的DRI驱动和OpenGL支持，`lib32-mesa`为32位应用提供该支持，`vulkan-intel`提供vulkan支持，`intel-media-driver`提供VA-API视频硬件加速支持（>=Broadwell）
+  intel开源驱动已经在kernel中集成，即`modesetting`
+
+  `xf86-video-intel `是Xorg上的intel显卡驱动，可不安装，它提供了Xorg上的2D加速服务，但arch wiki上不建议安装该驱动，可能在一些显卡上有问题，若需安装，也请使用`modesetting`提供驱动
+
+  `mesa`提供了3D加速的DRI驱动和OpenGL支持，`lib32-mesa`为32位应用提供该支持，`vulkan-intel`提供vulkan支持，`intel-media-driver`提供VA-API视频硬件加速支持（>=Broadwell）
 
   ```sh
   pacman -S mesa vulkan-intel intel-media-driver
   ```
 
-  还需设置`LIBVA_DRIVER_NAME`环境变量才可启用VA-API支持
+  还需设置`LIBVA_DRIVER_NAME`环境变量才可启用VA-API视频硬件加速支持
 
   ```sh
   echo 'export LIBVA_DRIVER_NAME=iHD' > /etc/profile.d/va-api.sh
@@ -105,7 +111,7 @@ EDITOR=vim visudo
 
 - NVIDIA显卡闭源驱动
 
-  lts内核安装`nvidia-lts`即可，需要使用图形界面设置可安装`nvidia-settings`，提供VDPAU视频硬件加速和其他特性可安装`nvidia-utils`
+  lts内核安装`nvidia-lts`，需要使用图形界面设置可安装`nvidia-settings`，提供VDPAU视频硬件加速和其他特性可安装`nvidia-utils`
 
   ```sh
   pacman -S nvidia-lts nvidia-settings nvidia-utils
@@ -122,10 +128,10 @@ EDITOR=vim visudo
 #### 安装KDE
 
 ```sh
-pacman -S plasma kdebase kdegraphics    # 安装kde桌面和部分工具
-pacman -S sddm sddm-kcm    # 安装kde登录界面
-pacman -S latte-dock     # KDE上好用的dock栏
-systemctl enable sddm    #设置登录界面自启动
+pacman -S plasma kdebase kdegraphics    # 安装KDE桌面和部分工具
+pacman -S sddm sddm-kcm                 # 安装KDE登录界面
+pacman -S latte-dock                    # KDE上好用的dock栏
+systemctl enable sddm                   # 设置登录界面自启动
 ```
 
 #### 安装网络管理模块和挂载MTP工具
@@ -134,7 +140,7 @@ systemctl enable sddm    #设置登录界面自启动
 
   ```sh
   pacman -S networkmanager
-  systemctl enable NetworkManager    # 设置网络管理模块自启动 注意大小写
+  systemctl enable NetworkManager       # 设置网络管理模块自启动 注意大小写
   ```
 
 - 蓝牙管理
@@ -142,11 +148,11 @@ systemctl enable sddm    #设置登录界面自启动
   ```sh
   pacman -S bluez bluez-utils pulseaudio-modules-bt
   pacman -S alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa
-  usermod -aG lp aaron    # 添加用户到lp组控制蓝牙
-  systemctl enable bluetooth    # 设置蓝牙模块开机自启动
+  usermod -aG lp aaron              # 添加用户到lp组以控制蓝牙
+  systemctl enable bluetooth        # 设置蓝牙模块开机自启动
   ```
   
-  博通的蓝牙芯片需要再aur中加装驱动比如`bluez-firmware`
+  `pulseaudio-modules-bt`提供了蓝牙耳机或音箱的输出支持，博通的蓝牙芯片需要再aur中加装驱动比如`bluez-firmware`
   
 - MTP
 
@@ -167,13 +173,13 @@ systemctl enable sddm    #设置登录界面自启动
 
 - 使用fontconfig
 
-  我个人使用了fontconfig来让字体更好的渲染，我用到的是`noto-fonts`、`noto-fonts-cjk`、`noto-fonts-emoji`和`FuraCode-Nerd-Font`，前面三个archlinuxcn源有打包，最后一个我是在`nerd-font`项目上下载的，主要来使用zsh主题，个人的fontconfig借鉴了<https://szclsya.me/zh-cn/posts/fonts/linux-config-guide/>上的配置，在dotfiles文件夹里
+  我个人使用了fontconfig来让字体更好的渲染，我用到的是`noto-fonts`、`noto-fonts-cjk`、`noto-fonts-emoji`和`FuraCode-Nerd-Font`，前面三个archlinuxcn源有打包，最后一个我是在`nerd-font`项目上下载的，主要来使用zsh主题，个人的fontconfig借鉴了[Linux下的字体调校指南](https://szclsya.me/zh-cn/posts/fonts/linux-config-guide/)上的配置，在dotfiles文件夹里
 
   ```sh
   sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
   ```
 
-  将font.conf扔进个人home中的`.config/fontconfig`中重新即可看到效果
+  将font.conf扔进个人home中的`.config/fontconfig`中重新登录即可看到效果
 
 - 不使用fontconfig
 
@@ -189,14 +195,14 @@ systemctl enable sddm    #设置登录界面自启动
 sudo sh -c "echo 'LANG=zh_CN.UTF-8' > /etc/locale.conf"
 ```
 
-注销重新登录即可
+重新登录即可
 
 #### 安装中文输入法
 
 - fcitx & google-pinyin
 
   ```sh
-  sudo pacman -S fcitx fcitx-configtool fcitx-im fcitx-googlepinyin kcm-fcitx    # 安装输入法
+  sudo pacman -S fcitx fcitx-configtool fcitx-im fcitx-googlepinyin kcm-fcitx
   echo 'export GTK_IM_MODULE=fcitx' > .xprofile
   echo 'export QT_IM_MODULE=fcitx' >> .xprofile
   echo 'export XMODIFIERS=@im=fcitx' >> .xprofile
@@ -214,7 +220,7 @@ sudo sh -c "echo 'LANG=zh_CN.UTF-8' > /etc/locale.conf"
   echo 'fcitx5 &' >> .xprofile
   ```
 
-  fcitx5相关软件在archlinuxcn源中
+  fcitx5是下一代fcitx输入法框架，相关软件在archlinuxcn源中
 
 重启后生效
 
@@ -223,10 +229,16 @@ sudo sh -c "echo 'LANG=zh_CN.UTF-8' > /etc/locale.conf"
 ```sh
 sudo pacman -S tlp tlp-rdw ethtool smartmontools    # 安装TLP
 sudo systemctl enable tlp.service
-sudo systemctl enable tlp-sleep.service    # 设置TLP自启动
+sudo systemctl enable tlp-sleep.service             # 设置TLP自启动
 sudo systemctl mask systemd-rfkill.service
-sudo systemctl mask systemd-rfkill.socket    # 屏蔽部分服务以免冲突
+sudo systemctl mask systemd-rfkill.socket           # 屏蔽部分服务以免冲突
 ```
 
 重启后生效
 
+#### 参考链接
+
+1. [ArchLinux's General recommendations](https://wiki.archlinux.org/index.php/General_recommendations)
+2. [ArchLinux's General recommendations中文译版](https://wiki.archlinux.org/index.php/General_recommendations_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+3. [Linux下的字体调教指南](https://szclsya.me/zh-cn/posts/fonts/linux-config-guide/)
+4. [Linux下终极字体配置方案](https://ohmyarch.github.io/2017/01/15/Linux%E4%B8%8B%E7%BB%88%E6%9E%81%E5%AD%97%E4%BD%93%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88/)

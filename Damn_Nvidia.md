@@ -159,11 +159,11 @@
   
   参考链接:
   
-  <https://0x9.me/bTgdy> 惠狐之书
+  1. [惠狐之书---Archlinux 下 Intel 和 NVIDIA 双显卡 de 折腾笔记]([https://blog.megumifox.com/public/2018/11/26/archlinux-%E4%B8%8B-intel-%E5%92%8C-nvidia-%E5%8F%8C%E6%98%BE%E5%8D%A1-de-%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/](https://blog.megumifox.com/public/2018/11/26/archlinux-下-intel-和-nvidia-双显卡-de-折腾笔记/))
   
-  <https://wiki.archlinux.org/index.php/NVIDIA_Optimus#Lockup_issue_(lspci_hangs)> lspci问题描述
+  2. [lspci问题在Arch Wiki上的描述](https://wiki.archlinux.org/index.php/NVIDIA_Optimus#Lockup_issue_(lspci_hangs))
   
-  <https://github.com/Bumblebee-Project/bbswitch> bbswitch项目主页
+  3. [bbswitch项目主页](https://github.com/Bumblebee-Project/bbswitch)
   
 - **optimus-manager**
 
@@ -190,7 +190,7 @@
   
   参考链接:
   
-  <https://github.com/Askannz/optimus-manager> optimus-manager项目主页
+  [optimus-manager项目主页](https://github.com/Askannz/optimus-manager)
   
 - PRIME Render offload
 
@@ -225,14 +225,14 @@
   EndSection
   ```
 
-  若不生效需加入BusID，参见依云’s blog
+  若不生效需加入BusID，具体参见依云’s blog
 
   注意需移除其他管理显卡的工具，避免冲突
 
   参考链接:
 
-   <https://wiki.archlinux.org/index.php/PRIME#PRIME_GPU_offloading> arch wiki 上对其的描述
+  1. [Arch Wiki 上对该方案的描述]( https://wiki.archlinux.org/index.php/PRIME#PRIME_GPU_offloading)
 
-  <https://download.nvidia.com/XFree86/Linux-x86_64/440.44/README/primerenderoffload.html> NVIDIA官方文档
+  2. [NVIDIA官方文档对该方案的描述](https://download.nvidia.com/XFree86/Linux-x86_64/440.44/README/primerenderoffload.html)
 
-  <https://blog.lilydjwg.me/2019/9/3/nvidia-prime-setup.214768.html> 依云‘s blog关于PRIME offload
+  3. [依云‘s blog关于该方案](https://blog.lilydjwg.me/2019/9/3/nvidia-prime-setup.214768.html)
