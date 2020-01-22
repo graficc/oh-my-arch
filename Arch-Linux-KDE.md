@@ -1,4 +1,4 @@
-# Arch + KDE安装
+## Arch Linux 折腾日常之基本系统的配置和KDE桌面环境的安装
 
 进入刚刚安装的 Arch Linux 使用root登录
 
@@ -20,16 +20,16 @@
 #### 添加用户
 
 ```sh
-useradd -m -G wheel,adm -s /bin/bash aaron    # aaron替换为你喜欢的用户名，不能大写
+useradd -m -G wheel,adm -s /bin/bash aaron    # aaron替换为你喜欢的用户名, 不能大写
 passwd aaron                                  # 设置用户密码
 EDITOR=vim visudo
 ```
 
-这时会进入vim的操作界面，取消`# %wheel ALL=(ALL) ALL`的注释即删除那个#号即可
+这时会进入vim的操作界面, 取消`# %wheel ALL=(ALL) ALL`的注释即删除那个#号即可
 
 #### 启用32位支持、添加Archlinuxcn源和aur helper
 
-- 启用32位支持，即启用archlinux的[multilib]，它里面有一些32位程序，如`steam`，`wine`等；启用很简单，取消`/etc/pacman.conf`相应的注释即可
+- 启用32位支持, 即启用archlinux的[multilib], 它里面有一些32位程序, 如`steam`, `wine`等；启用很简单, 取消`/etc/pacman.conf`相应的注释即可
 
   ```sh
   #[multilib]
@@ -38,9 +38,9 @@ EDITOR=vim visudo
   #VerbosePkgLists
   ```
 
-  取消Color的注释可以让pacman彩色输出，而VerbosePkgLists则是升级软件时，可以查看新旧软件对比
+  取消Color的注释可以让pacman彩色输出, 而VerbosePkgLists则是升级软件时, 可以查看新旧软件对比
 
-- 添加Archlinuxcn社区源，里面打包了aur上国人常用软件和一些软件的Linux版本，在`/etc/pacman.conf`中加入
+- 添加Archlinuxcn社区源, 里面打包了aur上国人常用软件和一些软件的Linux版本, 在`/etc/pacman.conf`中加入
 
   ```sh
   [archlinuxcn]
@@ -50,7 +50,7 @@ EDITOR=vim visudo
 
   再使用`pacman -Syy archlinuxcn-keyring`安装该源所需的密钥
 
-  ps：有时添加密钥出错，可进行如下操作
+  ps：有时添加密钥出错, 可进行如下操作
 
   ```sh
   rm -rf /etc/pacman.d/gnupg
@@ -60,7 +60,7 @@ EDITOR=vim visudo
   pacman -Syy archlinuxcn-keyring
   ```
 
-- aur helper可以让你快速便捷地安装aur上的软件，yay是用Go语言写的，操作与pacman类似的aur helper，在archlinuxcn源中就有
+- aur helper可以让你快速便捷地安装aur上的软件, yay是用Go语言写的, 操作与pacman类似的aur helper, 在archlinuxcn源中就有
 
   ```sh
   pacman -S yay     # 即可
@@ -78,25 +78,25 @@ EDITOR=vim visudo
 
 - 触摸板驱动
 
-  在KDE上需要`xf86-input-synaptics`来设置触摸板，而gnome使用`xf86-input-libinput`即可统一管理输入设备
+  在KDE上需要`xf86-input-synaptics`来设置触摸板, 而gnome使用`xf86-input-libinput`即可统一管理输入设备
 
   ```sh
   pacman -S xf86-input-libinput xf86-input-synaptics 
   ln -sf /usr/share/X11/xorg.conf.d/40-libinput.conf \
-  /etc/X11/xorg.conf.d/40-libinput.conf                  # 初始化输入设备配置
+  /etc/X11/xorg.conf.d/40-libinput.conf     # 初始化输入设备配置
   ln -sf /usr/share/X11/xorg.conf.d/70-synaptics.conf \
-  /etc/X11/xorg.conf.d/70-synaptics.conf                 # 初始化触摸板配置
+  /etc/X11/xorg.conf.d/70-synaptics.conf    # 初始化触摸板配置
   ```
 
 #### 安装显卡驱动
 
 - intel核显开源驱动
 
-  intel开源驱动已经在kernel中集成，即`modesetting`
+  intel开源驱动已经在kernel中集成, 即`modesetting`,但要确保内核参数中没有`nomodeset`或`vga=`
 
-  `xf86-video-intel `是Xorg上的intel显卡驱动，可不安装，它提供了Xorg上的2D加速服务，但arch wiki上不建议安装该驱动，可能在一些显卡上有问题，若需安装，也请使用`modesetting`提供驱动
+  `xf86-video-intel `是Xorg上的intel显卡驱动, 可不安装, 它提供了Xorg上的2D加速服务, 但arch wiki上不建议安装该驱动, 可能在一些显卡上有问题, 若需安装, 也请使用`modesetting`提供驱动
 
-  `mesa`提供了3D加速的DRI驱动和OpenGL支持，`lib32-mesa`为32位应用提供该支持，`vulkan-intel`提供vulkan支持，`intel-media-driver`提供VA-API视频硬件加速支持（>=Broadwell）
+  `mesa`提供了3D加速的DRI驱动和OpenGL支持, `lib32-mesa`为32位应用提供该支持, `vulkan-intel`提供vulkan支持, `intel-media-driver`提供VA-API视频硬件加速支持（>=Broadwell）
 
   ```sh
   pacman -S mesa vulkan-intel intel-media-driver
@@ -109,21 +109,21 @@ EDITOR=vim visudo
   chmod a+x /etc/profile.d/va-api.sh
   ```
 
-- NVIDIA显卡闭源驱动
+- NVIDIA独显闭源驱动
 
-  lts内核安装`nvidia-lts`，需要使用图形界面设置可安装`nvidia-settings`，提供VDPAU视频硬件加速和其他特性可安装`nvidia-utils`
+  lts内核安装`nvidia-lts`, 需要使用图形界面设置可安装`nvidia-settings`, 提供VDPAU视频硬件加速和其他特性可安装`nvidia-utils`
 
   ```sh
   pacman -S nvidia-lts nvidia-settings nvidia-utils
   ```
 
-  双显卡笔记本可采用optimus-manager来管理，具体可见另外一篇文章---`Damn_Nvidia.md`
+  双显卡笔记本可采用optimus-manager来管理, 具体可见Arch Wiki
 
   ```sh
   pacman -S optimus-manager optimus-manager-qt nvidia-prime
   ```
   
-  关于视频硬件加速可在vlc中启用，有VA-API和VDPAU两种，其中VDPAU是NVIDIA提供的，使用N卡才会有
+  关于视频硬件加速, 可在vlc中启用, 有VA-API和VDPAU两种, 其中VDPAU是NVIDIA提供的, 使用N卡才会有
 
 #### 安装KDE
 
@@ -152,28 +152,28 @@ systemctl enable sddm                   # 设置登录界面自启动
   systemctl enable bluetooth        # 设置蓝牙模块开机自启动
   ```
   
-  `pulseaudio-modules-bt`提供了蓝牙耳机或音箱的输出支持，博通的蓝牙芯片需要再aur中加装驱动比如`bluez-firmware`
+  `pulseaudio-modules-bt`提供了蓝牙耳机或音箱的输出支持, 博通的蓝牙芯片需要再aur中加装驱动比如`bluez-firmware`
   
 - MTP
 
   ```sh
   pacman -S libmtp mtpfs
-  pacman -S android-tools android-udev    # 可选，使用adb管理手机
+  pacman -S android-tools android-udev    # 可选, 使用adb管理手机
   ```
 
-  若果用Gnome类的文件管理器，可以安装`gvfs-mtp`，KDE的话，安装`kio-extras`获得更好体验
-  
-  ----------
-  
-  重启进入系统
-  
-  ----------
+  若果用Gnome类的文件管理器, 可以安装`gvfs-mtp`, KDE的话, 安装`kio-extras`获得更好体验
+
+-----
+
+#### 重启即可看到图形界面
+
+-----
 
 #### 安装中文字体
 
 - 使用fontconfig
 
-  我个人使用了fontconfig来让字体更好的渲染，我用到的是`noto-fonts`、`noto-fonts-cjk`、`noto-fonts-emoji`和`FuraCode-Nerd-Font`，前面三个archlinuxcn源有打包，最后一个我是在`nerd-font`项目上下载的，主要来使用zsh主题，个人的fontconfig借鉴了[Linux下的字体调校指南](https://szclsya.me/zh-cn/posts/fonts/linux-config-guide/)上的配置，在dotfiles文件夹里
+  我个人使用了fontconfig来让字体更好的渲染, 我用到的是`noto-fonts`、`noto-fonts-cjk`、`noto-fonts-emoji`和`FuraCode-Nerd-Font`, 前面三个archlinuxcn源有打包, 最后一个我是在`nerd-font`项目上下载的, 主要来使用zsh主题, 个人的fontconfig借鉴了[Linux下的字体调校指南](https://szclsya.me/zh-cn/posts/fonts/linux-config-guide/)上的配置, 在dotfiles文件夹里
 
   ```sh
   sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
@@ -183,7 +183,7 @@ systemctl enable sddm                   # 设置登录界面自启动
 
 - 不使用fontconfig
 
-  推荐安装思源系列字体，在KDE中设置即可
+  推荐安装思源系列字体, 在KDE中设置即可
 
   ```sh
   sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts
@@ -220,7 +220,7 @@ sudo sh -c "echo 'LANG=zh_CN.UTF-8' > /etc/locale.conf"
   echo 'fcitx5 &' >> .xprofile
   ```
 
-  fcitx5是下一代fcitx输入法框架，相关软件在archlinuxcn源中
+  fcitx5是下一代fcitx输入法框架, 相关软件在archlinuxcn源中
 
 重启后生效
 
